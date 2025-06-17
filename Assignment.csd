@@ -13,6 +13,40 @@ nchnls = 1
 ;Bass Clef (F Clef) plays lower notes (around C3 and below)
 
 //clef tremolo additive filter reverb
+;instr 1
+;    kamp 	line		5000, p3, 0 
+;    kamp2 linseg	0, p3*.25, 1000, p3*.25, 500, p3*.25, 500, p3*.25, 0     
+;    k1		oscili	.2, 2, 1
+;    kMod		=k1+1
+;    kvibr      oscili  	1, 3, 1		;oscillator
+;    afreq = cpspch(p4)
+;    
+;    kEnv1 linseg 1, p3 - 0.1, 0.4
+;    kEnv2 linseg 1, p3 - 0.3, 0.2
+;    kEnv3 linseg 1, p3 - 0.5, 0.1
+;    kEnv4 linseg 1, p3 - 0.7, 0.07
+;    kEnv5 linseg 1, p3 - 0.8, 0.05
+;    kEnv6 linseg 1, p3 - 0.9, 0.03
+;    kEnv7 linseg 1, p3 - 1.0, 0.01
+;    
+;    asig1 oscili kamp*kMod*kEnv1, afreq+kvibr, 1
+;    asig2 oscili kamp*kMod*kEnv2, afreq, 2 
+;    asig3 oscili kamp*kMod*kEnv3, afreq, 3
+;    asig4 oscili kamp*kMod*kEnv4, afreq, 2
+;    asig5 oscili kamp*kMod*kEnv5, afreq, 3
+;    asig6 oscili kamp*kMod*kEnv6, afreq, 2 ; 2nd harmonic, mellow
+;    asig7 oscili kamp*kMod*kEnv7, afreq, 3 ; dull
+;    
+;    asig 	= asig1 + (asig2) + (asig3) + (asig4) + (asig5) + (asig6) + (asig7)
+;         
+;    asig tone asig, 1000
+;    asig	 atone	asig, 100
+;          
+;    aL, aR reverbsc asig, asig, 0.85, 1000
+;	 outs asig + aL*0.3, asig + aR*0.3
+;endin
+
+//clef tremolo additive filter reverb
 instr 1
     iFreq = cpspch(p4)
     iAmp = 5000
@@ -39,7 +73,9 @@ instr 1
 
     ; Subtle reverb
     aL, aR reverbsc aSig, aSig, 0.85, 5000
-    outs aSig + aL*0.2, aSig + aR*0.2
+    aSig = aSig + aL*0.2
+	
+    outs aSig, aSig
 endin
 
 ;lessen the bass clef so x overpower the treble clef
@@ -59,6 +95,17 @@ instr 2 ; Violin
     outs asig, asig
 endin
 
+// nyanyi
+;instr 3    
+;    ; Load sound file (mono or stereo)
+;    aSamp soundin "spectre.wav"
+;    afilt tone aSamp, 2000
+;    kEnv linseg 0, 0.1, 1, p3 - 0.2, 1, 0.1, 0
+;    afilt = afilt * kEnv * 5
+;
+;    outs afilt, afilt
+;endin
+
 
 </CsInstruments>
 <CsScore>
@@ -75,6 +122,9 @@ f6 0 4096 10 1 1 0.7 0.3 ; brighter tone
 ;1rest, 1/2rest, g, g, b, c#-c# 1/2, c#, b, g-g1/2, f-f
 
 t 0 128  ; Start time 0, tempo = 120 BPM
+
+; nyanyi
+i3 4.5 3000 0 0
 
 ;Part #1---------------------------`-------------------------
 ; g  c# e
